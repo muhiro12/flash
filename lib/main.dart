@@ -1,6 +1,7 @@
 import 'package:flash/app_builder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 void main() => runApp(MyApp());
 
@@ -42,7 +43,62 @@ class _MyHomePageState extends State<MyHomePage> {
     return Text(
       '$currentLength characters',
       textAlign: TextAlign.end,
+      style: TextStyle(color: Theme.of(context).accentColor),
     );
+  }
+
+  Widget _drawerTileTheme() {
+    double spacing = 5;
+    return ListTile(
+      leading: Text('Theme'),
+      title: Container(
+        height: 120,
+        child: GridView.count(
+          crossAxisCount: 2,
+          scrollDirection: Axis.horizontal,
+          mainAxisSpacing: spacing,
+          crossAxisSpacing: spacing,
+          padding: EdgeInsets.all(spacing),
+          children: <Widget>[
+            _colorChip(Colors.pink),
+            _colorChip(Colors.red),
+            _colorChip(Colors.deepOrange),
+            _colorChip(Colors.orange),
+            _colorChip(Colors.amber),
+            _colorChip(Colors.yellow),
+            _colorChip(Colors.lime),
+            _colorChip(Colors.lightGreen),
+            _colorChip(Colors.green),
+            _colorChip(Colors.teal),
+            _colorChip(Colors.cyan),
+            _colorChip(Colors.lightBlue),
+            _colorChip(Colors.blue),
+            _colorChip(Colors.indigo),
+            _colorChip(Colors.purple),
+            _colorChip(Colors.deepPurple),
+            _colorChip(Colors.blueGrey),
+            _colorChip(Colors.brown),
+            _colorChip(Colors.grey),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _colorChip(
+    Color color,
+  ) {
+    return FloatingActionButton(
+      backgroundColor: color,
+      elevation: 3,
+      onPressed: () => _changeTheme(color),
+      child: MyApp._color == color ? Icon(Icons.check) : null,
+    );
+  }
+
+  void _changeTheme(Color color) {
+    MyApp._color = color;
+    AppBuilder.of(context).rebuild();
   }
 
   void _clear() {
@@ -56,6 +112,21 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+      ),
+      endDrawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              child: Text(
+                'Header',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+            _drawerTileTheme()
+          ],
+        ),
       ),
       body: SafeArea(
         child: Column(
@@ -87,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: FloatingActionButton(
                 onPressed: _clear,
                 tooltip: 'Clear',
-                child: Icon(Icons.clear),
+                child: Icon(Icons.delete_outline),
               ),
             ),
             Container(
