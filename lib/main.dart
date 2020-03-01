@@ -6,14 +6,20 @@ import 'package:flutter/rendering.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  static Color _color = Colors.blue;
+  static Color _primaryColor = Colors.blue;
   @override
   Widget build(BuildContext context) {
     return AppBuilder(builder: (context) {
       return MaterialApp(
         title: 'Flash',
         theme: ThemeData(
-          primarySwatch: _color,
+          brightness: Brightness.light,
+          primarySwatch: _primaryColor,
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          primarySwatch: _primaryColor,
+          accentColor: _primaryColor,
         ),
         home: MyHomePage(title: 'Flash'),
       );
@@ -92,12 +98,12 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: color,
       elevation: 3,
       onPressed: () => _changeTheme(color),
-      child: MyApp._color == color ? Icon(Icons.check) : null,
+      child: MyApp._primaryColor == color ? Icon(Icons.check) : null,
     );
   }
 
   void _changeTheme(Color color) {
-    MyApp._color = color;
+    MyApp._primaryColor = color;
     AppBuilder.of(context).rebuild();
   }
 
