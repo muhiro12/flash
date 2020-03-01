@@ -1,4 +1,5 @@
 import 'package:flash/app_builder.dart';
+import 'package:flash/material_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -6,20 +7,24 @@ import 'package:flutter/rendering.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  static bool _isDark;
   static Color _primaryColor = Colors.blue;
+  static Color _accentColor = Colors.blueAccent;
+
   @override
   Widget build(BuildContext context) {
     return AppBuilder(builder: (context) {
       return MaterialApp(
         title: 'Flash',
         theme: ThemeData(
-          brightness: Brightness.light,
+          brightness: _isDark != true ? Brightness.light : Brightness.dark,
           primarySwatch: _primaryColor,
+          accentColor: _accentColor,
         ),
         darkTheme: ThemeData(
-          brightness: Brightness.dark,
+          brightness: _isDark != false ? Brightness.dark : Brightness.light,
           primarySwatch: _primaryColor,
-          accentColor: _primaryColor,
+          accentColor: _accentColor,
         ),
         home: MyHomePage(title: 'Flash'),
       );
@@ -54,6 +59,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _drawerTileTheme() {
+    if (MyApp._isDark == null) {
+      MyApp._isDark =
+          MediaQuery.of(context).platformBrightness == Brightness.dark;
+    }
     double spacing = 5;
     return ListTile(
       leading: Text('Theme'),
@@ -65,27 +74,11 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSpacing: spacing,
           crossAxisSpacing: spacing,
           padding: EdgeInsets.all(spacing),
-          children: <Widget>[
-            _colorChip(Colors.pink),
-            _colorChip(Colors.red),
-            _colorChip(Colors.deepOrange),
-            _colorChip(Colors.orange),
-            _colorChip(Colors.amber),
-            _colorChip(Colors.yellow),
-            _colorChip(Colors.lime),
-            _colorChip(Colors.lightGreen),
-            _colorChip(Colors.green),
-            _colorChip(Colors.teal),
-            _colorChip(Colors.cyan),
-            _colorChip(Colors.lightBlue),
-            _colorChip(Colors.blue),
-            _colorChip(Colors.indigo),
-            _colorChip(Colors.purple),
-            _colorChip(Colors.deepPurple),
-            _colorChip(Colors.blueGrey),
-            _colorChip(Colors.brown),
-            _colorChip(Colors.grey),
-          ],
+          children: MaterialColors.all
+              .map((materialColor) => MyApp._isDark
+                  ? _colorChip(materialColor.primaryColor)
+                  : _colorChip(materialColor.accentColor))
+              .toList(),
         ),
       ),
     );
@@ -94,16 +87,26 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _colorChip(
     Color color,
   ) {
+    Icon icon;
+    if (MyApp._primaryColor == MaterialColors.convertFrom(color).primaryColor) {
+      icon = Icon(Icons.check);
+    }
     return FloatingActionButton(
-      backgroundColor: color,
-      elevation: 3,
-      onPressed: () => _changeTheme(color),
-      child: MyApp._primaryColor == color ? Icon(Icons.check) : null,
-    );
+        backgroundColor: color,
+        elevation: 3,
+        onPressed: () => _changeTheme(color),
+        child: icon);
+  }
+
+  void _changeBrightness(bool isDark) {
+    MyApp._isDark = isDark;
+    AppBuilder.of(context).rebuild();
   }
 
   void _changeTheme(Color color) {
-    MyApp._primaryColor = color;
+    final materialColor = MaterialColors.convertFrom(color);
+    MyApp._primaryColor = materialColor.primaryColor;
+    MyApp._accentColor = materialColor.accentColor;
     AppBuilder.of(context).rebuild();
   }
 
@@ -126,7 +129,18 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text(
                 'Header',
                 style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).accentColor,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Text('Dark Mode'),
+              title: Align(
+                alignment: Alignment.centerLeft,
+                child: Switch(
+                  value: MyApp._isDark,
+                  activeColor: Theme.of(context).accentColor,
+                  onChanged: _changeBrightness,
                 ),
               ),
             ),
@@ -175,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Theme.of(context).primaryColor,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
