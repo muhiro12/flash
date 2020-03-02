@@ -3,6 +3,7 @@ import 'package:flash/material_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,8 +12,14 @@ class MyApp extends StatelessWidget {
   static Color _primaryColor = Colors.blue;
   static Color _accentColor = Colors.blueAccent;
 
+  void fetchIsDark() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    MyApp._isDark = prefs.getBool('isDark');
+  }
+
   @override
   Widget build(BuildContext context) {
+    fetchIsDark();
     return AppBuilder(builder: (context) {
       return MaterialApp(
         title: 'Flash',
@@ -41,9 +48,65 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    fetchFromPreferences();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('DebugLog $_isActive');
+    switch (state) {
+      case AppLifecycleState.resumed:
+        _isActive = true;
+        fetchFromPreferences();
+        break;
+      case AppLifecycleState.inactive:
+        if (_isActive) {
+          _isActive = false;
+          saveToPreferences();
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  void fetchFromPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String lastDateString = prefs.getString('lastDate');
+    if (lastDateString == null) {
+      return;
+    }
+
+    DateTime lastDate = DateTime.parse(lastDateString);
+    if (DateTime.now().isBefore(lastDate.add(Duration(minutes: _flashTime)))) {
+      _controller.text = prefs.getString('lastText');
+    } else {
+      _controller.text = '';
+    }
+  }
+
+  void saveToPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('lastText', _controller.text);
+    prefs.setString('lastDate', DateTime.now().toString());
+  }
+
   TextEditingController _controller = TextEditingController();
+  int _flashTime = 5;
   double _margin = 10;
+  bool _isActive = true;
 
   Widget _counter(
     BuildContext context, {
@@ -59,10 +122,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _drawerTileTheme() {
-    if (MyApp._isDark == null) {
-      MyApp._isDark =
-          MediaQuery.of(context).platformBrightness == Brightness.dark;
-    }
     double spacing = 5;
     return ListTile(
       leading: Text('Theme'),
@@ -98,7 +157,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child: icon);
   }
 
-  void _changeBrightness(bool isDark) {
+  void _changeBrightness(bool isDark) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isDark', isDark);
     MyApp._isDark = isDark;
     AppBuilder.of(context).rebuild();
   }
@@ -118,6 +179,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (MyApp._isDark == null) {
+      final isDark =
+          MediaQuery.of(context).platformBrightness == Brightness.dark;
+      _changeBrightness(isDark);
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
