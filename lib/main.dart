@@ -104,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   }
 
   TextEditingController _controller = TextEditingController();
+  FocusNode _focusNode = FocusNode();
   int _flashTime = 5;
   double _margin = 10;
   bool _isActive = true;
@@ -187,8 +188,22 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          Visibility(
+            visible: _focusNode.hasFocus,
+            child: FlatButton(
+              child: Text(
+                'Complete',
+                style: TextStyle(
+                  color: Theme.of(context).buttonColor,
+                ),
+              ),
+              onPressed: _focusNode.unfocus,
+            ),
+          ),
+        ],
       ),
-      endDrawer: Drawer(
+      drawer: Drawer(
         child: ListView(
           children: <Widget>[
             DrawerHeader(
@@ -225,6 +240,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                   margin: EdgeInsets.all(_margin),
                   child: TextField(
                     controller: _controller,
+                    focusNode: _focusNode,
                     buildCounter: _counter,
                     toolbarOptions: ToolbarOptions(
                       copy: true,
@@ -238,21 +254,35 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(right: _margin, bottom: _margin),
-              alignment: Alignment.centerRight,
-              child: FloatingActionButton(
-                onPressed: _clear,
-                tooltip: 'Clear',
-                child: Icon(Icons.delete_outline),
+            Visibility(
+              visible: !_focusNode.hasFocus,
+              child: Container(
+                margin: EdgeInsets.only(
+                  left: _margin,
+                  right: _margin,
+                  bottom: _margin,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    FloatingActionButton(
+                      onPressed: _clear,
+                      tooltip: 'Clear',
+                      child: Icon(Icons.delete_outline),
+                    ),
+                  ],
+                ),
               ),
             ),
-            Container(
-              height: 50,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                  color: Theme.of(context).primaryColor,
+            Visibility(
+              visible: !_focusNode.hasFocus,
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 2,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
               ),
             ),
