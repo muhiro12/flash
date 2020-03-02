@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MaterialColors {
-  static List<_MaterialColorsPair> all = [
+  MaterialColors._(this.primaryColor, this.accentColor);
+
+  Color primaryColor;
+  Color accentColor;
+
+  static List<MaterialColors> all = [
     MaterialColors.pink,
     MaterialColors.red,
     MaterialColors.deepOrange,
@@ -23,64 +28,56 @@ class MaterialColors {
     MaterialColors.grey,
   ];
 
-  static _MaterialColorsPair pink =
-      _MaterialColorsPair(Colors.pink, Colors.pinkAccent);
+  static MaterialColors pink = MaterialColors._(Colors.pink, Colors.pinkAccent);
 
-  static _MaterialColorsPair red =
-      _MaterialColorsPair(Colors.red, Colors.redAccent);
+  static MaterialColors red = MaterialColors._(Colors.red, Colors.redAccent);
 
-  static _MaterialColorsPair deepOrange =
-      _MaterialColorsPair(Colors.deepOrange, Colors.deepOrangeAccent);
+  static MaterialColors deepOrange =
+      MaterialColors._(Colors.deepOrange, Colors.deepOrangeAccent);
 
-  static _MaterialColorsPair orange =
-      _MaterialColorsPair(Colors.orange, Colors.orangeAccent);
+  static MaterialColors orange =
+      MaterialColors._(Colors.orange, Colors.orangeAccent);
 
-  static _MaterialColorsPair amber =
-      _MaterialColorsPair(Colors.amber, Colors.amberAccent);
+  static MaterialColors amber =
+      MaterialColors._(Colors.amber, Colors.amberAccent);
 
-  static _MaterialColorsPair yellow =
-      _MaterialColorsPair(Colors.yellow, Colors.yellowAccent);
+  static MaterialColors yellow =
+      MaterialColors._(Colors.yellow, Colors.yellowAccent);
 
-  static _MaterialColorsPair lime =
-      _MaterialColorsPair(Colors.lime, Colors.limeAccent);
+  static MaterialColors lime = MaterialColors._(Colors.lime, Colors.limeAccent);
 
-  static _MaterialColorsPair lightGreen =
-      _MaterialColorsPair(Colors.lightGreen, Colors.lightGreenAccent);
+  static MaterialColors lightGreen =
+      MaterialColors._(Colors.lightGreen, Colors.lightGreenAccent);
 
-  static _MaterialColorsPair green =
-      _MaterialColorsPair(Colors.green, Colors.greenAccent);
+  static MaterialColors green =
+      MaterialColors._(Colors.green, Colors.greenAccent);
 
-  static _MaterialColorsPair teal =
-      _MaterialColorsPair(Colors.teal, Colors.tealAccent);
+  static MaterialColors teal = MaterialColors._(Colors.teal, Colors.tealAccent);
 
-  static _MaterialColorsPair cyan =
-      _MaterialColorsPair(Colors.cyan, Colors.cyanAccent);
+  static MaterialColors cyan = MaterialColors._(Colors.cyan, Colors.cyanAccent);
 
-  static _MaterialColorsPair lightBlue =
-      _MaterialColorsPair(Colors.lightBlue, Colors.lightBlueAccent);
+  static MaterialColors lightBlue =
+      MaterialColors._(Colors.lightBlue, Colors.lightBlueAccent);
 
-  static _MaterialColorsPair blue =
-      _MaterialColorsPair(Colors.blue, Colors.blueAccent);
+  static MaterialColors blue = MaterialColors._(Colors.blue, Colors.blueAccent);
 
-  static _MaterialColorsPair indigo =
-      _MaterialColorsPair(Colors.indigo, Colors.indigoAccent);
+  static MaterialColors indigo =
+      MaterialColors._(Colors.indigo, Colors.indigoAccent);
 
-  static _MaterialColorsPair purple =
-      _MaterialColorsPair(Colors.purple, Colors.purpleAccent);
+  static MaterialColors purple =
+      MaterialColors._(Colors.purple, Colors.purpleAccent);
 
-  static _MaterialColorsPair deepPurple =
-      _MaterialColorsPair(Colors.deepPurple, Colors.deepPurpleAccent);
+  static MaterialColors deepPurple =
+      MaterialColors._(Colors.deepPurple, Colors.deepPurpleAccent);
 
-  static _MaterialColorsPair blueGrey =
-      _MaterialColorsPair(Colors.blueGrey, Colors.blueGrey);
+  static MaterialColors blueGrey =
+      MaterialColors._(Colors.blueGrey, Colors.blueGrey);
 
-  static _MaterialColorsPair brown =
-      _MaterialColorsPair(Colors.brown, Colors.brown);
+  static MaterialColors brown = MaterialColors._(Colors.brown, Colors.brown);
 
-  static _MaterialColorsPair grey =
-      _MaterialColorsPair(Colors.grey, Colors.grey);
+  static MaterialColors grey = MaterialColors._(Colors.grey, Colors.grey);
 
-  static _MaterialColorsPair convertFrom(Color color) {
+  static MaterialColors convertFrom(Color color) {
     if (color == Colors.pink || color == Colors.pinkAccent) {
       return pink;
     } else if (color == Colors.red || color == Colors.redAccent) {
@@ -122,11 +119,4 @@ class MaterialColors {
     }
     return blue;
   }
-}
-
-class _MaterialColorsPair {
-  _MaterialColorsPair(this.primaryColor, this.accentColor);
-
-  Color primaryColor;
-  Color accentColor;
 }

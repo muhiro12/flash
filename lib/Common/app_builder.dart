@@ -2,19 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AppBuilder extends StatefulWidget {
-  final Function(BuildContext) builder;
-
   const AppBuilder({Key key, this.builder}) : super(key: key);
 
-  static AppBuilderState of(BuildContext context) {
-    return context.findAncestorStateOfType<AppBuilderState>();
+  final Function(BuildContext) builder;
+
+  static _AppBuilderState of(BuildContext context) {
+    return context.findAncestorStateOfType<_AppBuilderState>();
   }
 
   @override
-  State<StatefulWidget> createState() => AppBuilderState();
+  _AppBuilderState createState() => _AppBuilderState();
 }
 
-class AppBuilderState extends State<AppBuilder> {
+class _AppBuilderState extends State<AppBuilder> {
   @override
   Widget build(BuildContext context) {
     return widget.builder(context);
