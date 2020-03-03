@@ -1,6 +1,7 @@
 import 'package:flash/Main/main_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MainArea extends StatelessWidget {
   MainArea(this._controller, this._focusNode);
@@ -33,6 +34,20 @@ class MainArea extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.content_copy),
+                  onPressed: _copy,
+                ),
+                Container(
+                  width: _margin,
+                ),
+                IconButton(
+                  icon: Icon(Icons.content_paste),
+                  onPressed: _paste,
+                ),
+                Container(
+                  width: _margin,
+                ),
                 FloatingActionButton(
                   onPressed: _clear,
                   tooltip: 'Clear',
@@ -44,6 +59,16 @@ class MainArea extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _copy() async {
+    final data = ClipboardData(text: _controller.text);
+    await Clipboard.setData(data);
+  }
+
+  void _paste() async {
+    final data = await Clipboard.getData('text/plain');
+    _controller.text += data.text;
   }
 
   void _clear() {
