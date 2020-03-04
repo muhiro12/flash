@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flash/Common/app_builder.dart';
 import 'package:flash/Common/configuration.dart';
 import 'package:flash/Common/material_colors.dart';
@@ -12,6 +13,7 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   final Configuration _configuration = Configuration.getInstance();
+  final FirebaseAnalytics analytics = FirebaseAnalytics();
 
   @override
   Widget build(BuildContext context) {
