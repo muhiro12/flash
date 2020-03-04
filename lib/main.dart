@@ -7,6 +7,7 @@ import 'package:flash/Main/main_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
@@ -25,14 +26,18 @@ class MyApp extends StatelessWidget {
               ? Brightness.light
               : Brightness.dark,
           primarySwatch: _configuration.colors.primaryColor,
-          accentColor: _configuration.colors.accentColor,
+          accentColor: _configuration.isDark != true
+              ? null
+              : _configuration.colors.accentColor,
         ),
         darkTheme: ThemeData(
           brightness: _configuration.isDark != false
               ? Brightness.dark
               : Brightness.light,
           primarySwatch: _configuration.colors.primaryColor,
-          accentColor: _configuration.colors.accentColor,
+          accentColor: _configuration.isDark != false
+              ? _configuration.colors.accentColor
+              : null,
         ),
         home: MyHomePage(title: 'Flash'),
       );
@@ -54,15 +59,23 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final FocusNode _focusNode = FocusNode();
   final int _flashTime = 5;
   final Configuration _configuration = Configuration.getInstance();
+  Color _iconColor = Colors.transparent;
   bool _isActive = true;
   bool _isFocusedOnMainArea = false;
 
   @override
   Widget build(BuildContext context) {
+    _setUpBrightness();
     MainArea mainArea = MainArea(_controller, _focusNode);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        elevation: 12,
+        centerTitle: true,
+        title: SvgPicture.asset(
+          'assets/images/app_icon.svg',
+          height: AppBar().preferredSize.height * 0.8,
+          color: _iconColor,
+        ),
         actions: <Widget>[
           Visibility(
             visible: _isFocusedOnMainArea,
@@ -78,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           ),
         ],
       ),
-      drawer: CustomDrawer(),
+      drawer: CustomDrawer(widget.title),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -138,14 +151,24 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     }
   }
 
+  void _setUpBrightness() async {
+    bool isDark = _configuration.isDark;
+    if (isDark == null) {
+      isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isDark', isDark);
+    }
+    if (!isDark) {
+      _iconColor = Theme.of(context).primaryIconTheme.color;
+    } else {
+      _iconColor = _configuration.colors.accentColor;
+    }
+  }
+
   void _fetchConfiguration() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool isDark = prefs.getBool('isDark');
-    if (isDark == null) {
-      isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
-      await prefs.setBool('isDark', isDark);
-    }
     _configuration.isDark = isDark;
 
     int colorValue = prefs.getInt('colorValue');

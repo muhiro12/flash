@@ -1,6 +1,7 @@
 import 'package:flash/Main/main_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 class MainArea extends StatelessWidget {
@@ -17,6 +18,10 @@ class MainArea extends StatelessWidget {
         Expanded(
           child: Card(
             margin: EdgeInsets.all(_margin),
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Container(
               margin: EdgeInsets.all(_margin),
               child: MainTextField(_controller, _focusNode),
@@ -36,6 +41,7 @@ class MainArea extends StatelessWidget {
               children: <Widget>[
                 IconButton(
                   icon: Icon(Icons.content_copy),
+                  tooltip: 'Copy',
                   onPressed: _copy,
                 ),
                 Container(
@@ -43,15 +49,18 @@ class MainArea extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.content_paste),
+                  tooltip: 'Paste',
                   onPressed: _paste,
                 ),
                 Container(
                   width: _margin,
                 ),
                 FloatingActionButton(
-                  onPressed: _clear,
                   tooltip: 'Clear',
-                  child: Icon(Icons.delete_outline),
+                  onPressed: _clear,
+                  child: Icon(
+                    Icons.delete_outline,
+                  ),
                 ),
               ],
             ),
