@@ -117,6 +117,6 @@ class MaterialColors {
     } else if (color == Colors.grey) {
       return grey;
     }
-    return blue;
+    return cyan;
   }
 }

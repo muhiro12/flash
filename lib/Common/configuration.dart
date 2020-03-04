@@ -6,7 +6,7 @@ class Configuration {
   static Configuration _instance = Configuration._();
 
   bool isDark;
-  MaterialColors colors = MaterialColors.blue;
+  MaterialColors colors = MaterialColors.cyan;
 
   static Configuration getInstance() {
     return _instance;
