@@ -3,7 +3,7 @@
 <metadata>
 <vectornator:setting key="DisplayWhiteBackground" value="0"/>
 <vectornator:setting key="RulersVisible" value="1"/>
-<vectornator:setting key="GridSpacing" value="36"/>
+<vectornator:setting key="SnapToEdges" value="0"/>
 <vectornator:setting key="Units" value="Pixels"/>
 <vectornator:setting key="DynamicGuides" value="0"/>
 <vectornator:setting key="SnapToPoints" value="0"/>
@@ -11,25 +11,20 @@
 <vectornator:setting key="SnapToGrid" value="0"/>
 <vectornator:setting key="SnapToGuides" value="1"/>
 <vectornator:setting key="ShowGrid" value="1"/>
-<vectornator:setting key="SnapToEdges" value="0"/>
+<vectornator:setting key="GridSpacing" value="36"/>
 </metadata>
 <defs>
-<linearGradient y1="521.488" id="LinearGradient" x1="78.5663" y2="521.488" x2="929.609" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 0 0)">
-<stop stop-color="#ffffff" offset="0"/>
-<stop stop-color="#18ffff" offset="0.0222222"/>
+<linearGradient y1="521.488" id="LinearGradient" x1="78.5663" y2="521.488" x2="929.609" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.961225 0 0 0.95997 24.8321 11.4435)">
+<stop stop-color="#18ffff" offset="0.0393162"/>
 <stop stop-color="#00bcd4" offset="0.336752"/>
 </linearGradient>
 </defs>
-<g id="Layer 3" vectornator:layerName="Layer 3" visibility="hidden">
-<path d="M0+0L1024+0L1024+1024L0+1024L0+0Z" opacity="1" fill="#ffffff"/>
-<path d="M1315.34-576.54L1320.15-576.54L1320.15-573.333L1315.34-573.333L1315.34-576.54Z" opacity="1" fill="#ffffff"/>
-</g>
 <g id="Layer 2" vectornator:layerName="Layer 2" visibility="hidden">
 <path stroke="#9e9e9e" vectornator:shadowColor="#9e9e9e" vectornator:shadowOffset="12.3413" stroke-width="18.95" fill="none" stroke-linecap="round" vectornator:shadowAngle="0.965335" stroke-linejoin="round" opacity="1" vectornator:shadowRadius="15.7165" d="M710.728+264.137L222.484+263.865" vectornator:shadowOpacity="1"/>
 <path stroke="#9e9e9e" vectornator:shadowColor="#9e9e9e" vectornator:shadowOffset="12.3413" stroke-width="18.95" fill="none" stroke-linecap="round" vectornator:shadowAngle="0.965335" stroke-linejoin="round" opacity="1" vectornator:shadowRadius="15.7165" d="M710.728+495.636L222.484+495.364" vectornator:shadowOpacity="1"/>
 <path stroke="#9e9e9e" vectornator:shadowColor="#9e9e9e" vectornator:shadowOffset="12.3413" stroke-width="18.95" fill="none" stroke-linecap="round" vectornator:shadowAngle="0.965335" stroke-linejoin="round" opacity="1" vectornator:shadowRadius="15.7165" d="M710.728+727.135L222.484+726.864" vectornator:shadowOpacity="1"/>
 </g>
 <g id="Layer 1" vectornator:layerName="Layer 1">
-<path d="M217.784+367.519C265.563+458.301+741.862+268.229+803.412+229.601C820.963+218.586+956.294+127.192+924.905+83.1869C886.661+29.5712+689.757+202.178+661.377+223.293C497.242+345.408+63.2399+686.661+78.9836+913.874C95.4414+1151.39+484.724+561.23+501.993+526.824C522.409+486.148+584.99+380.508+545.322+395.544C409.741+446.935+571.52+1016.32+857.937+831.04" opacity="1" fill="url(#LinearGradient)"/>
+<path d="M234.172+364.251C280.098+451.398+737.929+268.936+797.092+231.854C813.962+221.28+944.046+133.544+913.874+91.3003C877.113+39.8309+687.844+205.528+660.564+225.798C502.793+343.025+85.6199+670.617+100.753+888.735C116.573+1116.75+490.76+550.208+507.36+517.178C526.985+478.131+587.139+376.72+549.009+391.154C418.685+440.488+574.192+987.08+849.503+809.217" opacity="1" fill="url(#LinearGradient)"/>
 </g>
 </svg>
