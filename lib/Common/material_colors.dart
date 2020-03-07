@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class MaterialColors {
   MaterialColors._(this.primaryColor, this.accentColor);
 
-  Color primaryColor;
-  Color accentColor;
+  static final MaterialColors defaultColor = cyan;
+  final Color primaryColor;
+  final Color accentColor;
 
   static List<MaterialColors> all = [
     MaterialColors.pink,
@@ -117,6 +118,6 @@ class MaterialColors {
     } else if (color == Colors.grey) {
       return grey;
     }
-    return cyan;
+    return defaultColor;
   }
 }

@@ -1,8 +1,9 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flash/Common/app_builder.dart';
+import 'package:flash/Common/appearance.dart';
 import 'package:flash/Common/configuration.dart';
 import 'package:flash/Common/material_colors.dart';
-import 'package:flash/Drawer/custom_drawer.dart';
+import 'package:flash/Drawer/settings_drawer.dart';
 import 'package:flash/Main/main_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,20 +23,20 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         title: 'Flash',
         theme: ThemeData(
-          brightness: _configuration.isDark != true
+          brightness: _configuration.appearance != AppearanceType.dark
               ? Brightness.light
               : Brightness.dark,
           primarySwatch: _configuration.colors.primaryColor,
-          accentColor: _configuration.isDark != true
+          accentColor: _configuration.appearance != AppearanceType.dark
               ? null
               : _configuration.colors.accentColor,
         ),
         darkTheme: ThemeData(
-          brightness: _configuration.isDark != false
+          brightness: _configuration.appearance != AppearanceType.light
               ? Brightness.dark
               : Brightness.light,
           primarySwatch: _configuration.colors.primaryColor,
-          accentColor: _configuration.isDark != false
+          accentColor: _configuration.appearance != AppearanceType.light
               ? _configuration.colors.accentColor
               : null,
         ),
@@ -91,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           ),
         ],
       ),
-      drawer: CustomDrawer(widget.title),
+      drawer: SettingsDrawer(widget.title),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -122,8 +123,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     super.initState();
     _focusNode.addListener(_onFocusChanged);
     WidgetsBinding.instance.addObserver(this);
-    _fetchConfiguration();
-    _fetchText();
+    _setUpConfiguration();
+    _setUpText();
   }
 
   @override
@@ -138,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.resumed:
         _isActive = true;
-        _fetchText();
+        _setUpText();
         break;
       case AppLifecycleState.inactive:
         if (_isActive) {
@@ -151,37 +152,35 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     }
   }
 
-  void _setUpBrightness() async {
-    bool isDark = _configuration.isDark;
-    if (isDark == null) {
-      isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isDark', isDark);
-    }
-    if (!isDark) {
-      _iconColor = Theme.of(context).primaryIconTheme.color;
-    } else {
-      _iconColor = _configuration.colors.accentColor;
-    }
-  }
-
-  void _fetchConfiguration() async {
+  void _setUpConfiguration() async {
+    bool shouldRebuild = false;
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    bool isDark = prefs.getBool('isDark');
-    _configuration.isDark = isDark;
+    int appearanceID = prefs.getInt('appearanceID');
+    AppearanceType appearance = Appearance.convertToValue(appearanceID);
+    _configuration.appearance = appearance;
+    if (appearance != AppearanceType.system) {
+      shouldRebuild = true;
+    }
 
     int colorValue = prefs.getInt('colorValue');
+    MaterialColors materialColors = MaterialColors.defaultColor;
     MaterialColors.all.forEach((colors) {
       if (colors.primaryColor.value == colorValue) {
-        _configuration.colors = colors;
+        materialColors = colors;
       }
     });
+    _configuration.colors = materialColors;
+    if (materialColors != MaterialColors.defaultColor) {
+      shouldRebuild = true;
+    }
 
-    AppBuilder.of(context).rebuild();
+    if (shouldRebuild) {
+      AppBuilder.of(context).rebuild();
+    }
   }
 
-  void _fetchText() async {
+  void _setUpText() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String lastDateString = prefs.getString('lastDate');
@@ -194,6 +193,20 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       _controller.text = prefs.getString('lastText');
     } else {
       _controller.text = '';
+    }
+  }
+
+  void _setUpBrightness() async {
+    bool isDark;
+    if (_configuration.appearance == AppearanceType.system) {
+      isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    } else {
+      isDark = _configuration.appearance == AppearanceType.dark;
+    }
+    if (!isDark) {
+      _iconColor = Theme.of(context).primaryIconTheme.color;
+    } else {
+      _iconColor = Theme.of(context).accentColor;
     }
   }
 

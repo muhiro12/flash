@@ -1,3 +1,4 @@
+import 'package:flash/Common/appearance.dart';
 import 'package:flash/Common/material_colors.dart';
 
 class Configuration {
@@ -5,8 +6,8 @@ class Configuration {
 
   static Configuration _instance = Configuration._();
 
-  bool isDark;
-  MaterialColors colors = MaterialColors.cyan;
+  AppearanceType appearance = AppearanceType.system;
+  MaterialColors colors = MaterialColors.defaultColor;
 
   static Configuration getInstance() {
     return _instance;
