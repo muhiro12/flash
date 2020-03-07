@@ -29,7 +29,8 @@ class MainArea extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: !_focusNode.hasFocus,
+          visible:
+              !_focusNode.hasFocus || MediaQuery.of(context).size.height > 500,
           child: Container(
             margin: EdgeInsets.only(
               left: _margin,
@@ -39,6 +40,17 @@ class MainArea extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
+                Visibility(
+                  visible: _focusNode.hasFocus,
+                  child: IconButton(
+                    icon: Icon(Icons.keyboard_hide),
+                    tooltip: 'Hide',
+                    onPressed: _focusNode.unfocus,
+                  ),
+                ),
+                Expanded(
+                  child: Container(),
+                ),
                 IconButton(
                   icon: Icon(Icons.content_copy),
                   tooltip: 'Copy',
