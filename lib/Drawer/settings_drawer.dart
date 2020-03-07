@@ -40,6 +40,17 @@ class SettingsDrawer extends StatelessWidget {
             leading: Text('Theme'),
             title: ColorThemeSelector(),
           ),
+          AboutListTile(
+            applicationVersion: '1.0.0',
+            applicationIcon: SvgPicture.asset(
+              'assets/images/launcher.svg',
+              width: 50,
+            ),
+            aboutBoxChildren: <Widget>[
+              Text('Thenk you for using!!'),
+            ],
+            child: Text('About'),
+          ),
         ],
       ),
     );
