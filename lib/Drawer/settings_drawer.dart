@@ -1,5 +1,6 @@
 import 'package:flash/Drawer/appearance_selector.dart';
 import 'package:flash/Drawer/color_theme_selector.dart';
+import 'package:flash/Drawer/icon_description.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -48,6 +49,24 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
           ListTile(
             leading: Text('Theme'),
             title: ColorThemeSelector(),
+          ),
+          ListTile(
+            title: Text('Help'),
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('Icon Description'),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('CLOSE'),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                  content: IconDescription(),
+                );
+              },
+            ),
           ),
           AboutListTile(
             applicationName: _name,
