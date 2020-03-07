@@ -16,17 +16,8 @@ class _AppearanceSelectorState extends State<AppearanceSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: _iconButtons.map((iconButton) {
-        double margin = 10;
-        if (_iconButtons.last == iconButton) {
-          margin = 0;
-        }
-        return Container(
-          margin: EdgeInsets.only(right: margin),
-          child: iconButton,
-        );
-      }).toList(),
+    return ButtonBar(
+      children: _iconButtons,
     );
   }
 
