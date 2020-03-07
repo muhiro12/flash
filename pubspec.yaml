@@ -27,6 +27,7 @@ dependencies:
   firebase_core: 0.4.4
   firebase_analytics: ^5.0.11
   flutter_svg: ^0.17.2
+  package_info: ^0.4.0+14
 
 dev_dependencies:
   flutter_test:
