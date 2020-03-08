@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:share/share.dart';
 
 class MainArea extends StatelessWidget {
   MainArea(this._controller, this._focusNode);
@@ -52,6 +53,14 @@ class MainArea extends StatelessWidget {
                   child: Container(),
                 ),
                 IconButton(
+                  icon: Icon(Icons.send),
+                  tooltip: 'Share',
+                  onPressed: _share,
+                ),
+                Container(
+                  width: _margin,
+                ),
+                IconButton(
                   icon: Icon(Icons.content_copy),
                   tooltip: 'Copy',
                   onPressed: _copy,
@@ -80,6 +89,10 @@ class MainArea extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _share() {
+    Share.share(_controller.text);
   }
 
   void _copy() async {
