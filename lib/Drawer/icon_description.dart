@@ -15,6 +15,10 @@ class IconDescription extends StatelessWidget {
           Text('Content'),
           Divider(),
           ListTile(
+            leading: Icon(Icons.send),
+            title: Text('Share'),
+          ),
+          ListTile(
             leading: Icon(Icons.content_copy),
             title: Text('Copy'),
           ),
