@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
@@ -181,18 +182,30 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   }
 
   void _setUpText() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String text;
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     String lastDateString = prefs.getString('lastDate');
-    if (lastDateString == null) {
-      return;
+    String lastText = '';
+    if (lastDateString != null) {
+      DateTime lastDate = DateTime.parse(lastDateString);
+      if (DateTime.now()
+          .isBefore(lastDate.add(Duration(minutes: _flashTime)))) {
+        lastText = prefs.getString('lastText');
+      }
+    }
+    text = lastText;
+
+    String intentText = await ReceiveSharingIntent.getInitialText();
+    if (intentText != null && intentText.isNotEmpty) {
+      text = intentText;
     }
 
-    DateTime lastDate = DateTime.parse(lastDateString);
-    if (DateTime.now().isBefore(lastDate.add(Duration(minutes: _flashTime)))) {
-      _controller.text = prefs.getString('lastText');
-    } else {
-      _controller.text = '';
+    _controller.text = text;
+
+    intentText = await ReceiveSharingIntent.getTextStream().first;
+    if (intentText != null && intentText.isNotEmpty) {
+      _controller.text = text;
     }
   }
 

@@ -77,6 +77,8 @@ PODS:
   - package_info (0.0.1):
     - Flutter
   - PromisesObjC (1.2.8)
+  - receive_sharing_intent (0.0.1):
+    - Flutter
   - share (0.5.2):
     - Flutter
   - shared_preferences (0.0.1):
@@ -92,6 +94,7 @@ DEPENDENCIES:
   - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
   - Flutter (from `Flutter`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
+  - receive_sharing_intent (from `.symlinks/plugins/receive_sharing_intent/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - shared_preferences_macos (from `.symlinks/plugins/shared_preferences_macos/ios`)
@@ -123,6 +126,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
+  receive_sharing_intent:
+    :path: ".symlinks/plugins/receive_sharing_intent/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
   shared_preferences:
@@ -150,6 +155,7 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   package_info: 48b108e75b8802c2d5e126f208ef540561c98aef
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
+  receive_sharing_intent: c0d87310754e74c0f9542947e7cbdf3a0335a3b1
   share: bae0a282aab4483288913fc4dc0b935d4b491f2e
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
