@@ -5,10 +5,13 @@ import 'package:flash/Common/configuration.dart';
 import 'package:flash/Common/material_colors.dart';
 import 'package:flash/Drawer/settings_drawer.dart';
 import 'package:flash/Main/main_area.dart';
+import 'package:flash/Main/main_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
@@ -60,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final FocusNode _focusNode = FocusNode();
   final int _flashTime = 5;
   final Configuration _configuration = Configuration.getInstance();
+  final MainText _mainText = MainText();
   Color _iconColor = Colors.transparent;
   bool _isActive = true;
   bool _isFocusedOnMainArea = false;
@@ -73,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         elevation: 12,
         centerTitle: true,
         title: SvgPicture.asset(
-          'assets/images/app_icon.svg',
+          'images/app_icon.svg',
           height: AppBar().preferredSize.height * 0.8,
           color: _iconColor,
         ),
@@ -98,7 +102,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              child: mainArea,
+              child: ChangeNotifierProvider.value(
+                value: _mainText,
+                child: mainArea,
+              ),
             ),
             Visibility(
               visible: false,
@@ -145,6 +152,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         if (_isActive) {
           _isActive = false;
           _saveText();
+          _mainText.reset();
+          ReceiveSharingIntent.reset();
         }
         break;
       default:
@@ -181,18 +190,25 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   }
 
   void _setUpText() async {
+    ReceiveSharingIntent.getInitialText().then((value) {
+      _mainText.updateTo(value);
+    });
+    ReceiveSharingIntent.getTextStream().first.then((value) {
+      _mainText.updateTo(value);
+    });
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     String lastDateString = prefs.getString('lastDate');
-    if (lastDateString == null) {
-      return;
+    String lastText = '';
+    if (lastDateString != null) {
+      DateTime lastDate = DateTime.parse(lastDateString);
+      if (DateTime.now()
+          .isBefore(lastDate.add(Duration(minutes: _flashTime)))) {
+        lastText = prefs.getString('lastText');
+      }
     }
-
-    DateTime lastDate = DateTime.parse(lastDateString);
-    if (DateTime.now().isBefore(lastDate.add(Duration(minutes: _flashTime)))) {
-      _controller.text = prefs.getString('lastText');
-    } else {
-      _controller.text = '';
+    if (_mainText.getValue() == null || _mainText.getValue().isEmpty) {
+      _mainText.updateTo(lastText);
     }
   }
 

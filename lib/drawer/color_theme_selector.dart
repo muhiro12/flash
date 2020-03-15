@@ -50,7 +50,6 @@ class _ColorFloatingActionButton extends StatefulWidget {
 class _ColorFloatingActionButtonState
     extends State<_ColorFloatingActionButton> {
   final Configuration _configuration = Configuration.getInstance();
-  Icon _icon;
 
   @override
   Widget build(BuildContext context) {

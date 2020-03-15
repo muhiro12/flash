@@ -29,7 +29,7 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
               alignment: Alignment.bottomLeft,
               children: <Widget>[
                 SvgPicture.asset(
-                  'assets/images/launcher.svg',
+                  'images/launcher.svg',
                   alignment: Alignment.centerRight,
                 ),
                 Text(
@@ -72,7 +72,7 @@ class _SettingsDrawerState extends State<SettingsDrawer> {
             applicationName: _name,
             applicationVersion: _version,
             applicationIcon: SvgPicture.asset(
-              'assets/images/launcher.svg',
+              'images/launcher.svg',
               width: 50,
             ),
             aboutBoxChildren: <Widget>[
