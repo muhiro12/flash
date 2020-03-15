@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         elevation: 12,
         centerTitle: true,
         title: SvgPicture.asset(
-          'assets/images/app_icon.svg',
+          'images/app_icon.svg',
           height: AppBar().preferredSize.height * 0.8,
           color: _iconColor,
         ),
