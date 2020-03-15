@@ -1,5 +1,7 @@
+import 'package:flash/Main/main_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainTextField extends StatelessWidget {
   MainTextField(this._controller, this._focusNode);
@@ -9,6 +11,7 @@ class MainTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _controller.text = Provider.of<MainText>(context).getValue();
     return TextField(
       controller: _controller,
       focusNode: _focusNode,
