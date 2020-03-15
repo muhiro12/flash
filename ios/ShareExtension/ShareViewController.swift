@@ -28,7 +28,7 @@ class ShareViewController: SLComposeServiceViewController {
     override func didSelectPost() {
         if let content = extensionContext!.inputItems[0] as? NSExtensionItem {
             if let contents = content.attachments {
-                for (index, attachment) in (contents as! [NSItemProvider]).enumerated() {
+                for (index, attachment) in contents.enumerated() {
 
                     if attachment.hasItemConformingToTypeIdentifier(imageContentType) {
                         handleImages(content: content, attachment: attachment, index: index)
