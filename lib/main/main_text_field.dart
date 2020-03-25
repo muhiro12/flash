@@ -1,4 +1,4 @@
-import 'package:flash/Main/main_text.dart';
+import 'package:flash/main/main_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
