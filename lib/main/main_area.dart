@@ -92,7 +92,10 @@ class MainArea extends StatelessWidget {
   }
 
   void _share() {
-    Share.share(_controller.text);
+    if (_controller.text.isNotEmpty) {
+      _focusNode.unfocus();
+      Share.share(_controller.text);
+    }
   }
 
   void _copy() async {
