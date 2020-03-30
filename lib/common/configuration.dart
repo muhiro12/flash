@@ -1,5 +1,5 @@
-import 'package:flash/Common/appearance.dart';
-import 'package:flash/Common/material_colors.dart';
+import 'package:flash/common/appearance.dart';
+import 'package:flash/common/material_colors.dart';
 
 class Configuration {
   Configuration._();

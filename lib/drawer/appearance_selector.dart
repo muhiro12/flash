@@ -1,6 +1,6 @@
-import 'package:flash/Common/app_builder.dart';
-import 'package:flash/Common/appearance.dart';
-import 'package:flash/Common/configuration.dart';
+import 'package:flash/common/app_builder.dart';
+import 'package:flash/common/appearance.dart';
+import 'package:flash/common/configuration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
