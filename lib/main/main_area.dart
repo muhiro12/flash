@@ -1,4 +1,4 @@
-import 'package:flash/Main/main_text_field.dart';
+import 'package:flash/main/main_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -92,7 +92,10 @@ class MainArea extends StatelessWidget {
   }
 
   void _share() {
-    Share.share(_controller.text);
+    if (_controller.text.isNotEmpty) {
+      _focusNode.unfocus();
+      Share.share(_controller.text);
+    }
   }
 
   void _copy() async {

@@ -1,6 +1,6 @@
-import 'package:flash/Drawer/appearance_selector.dart';
-import 'package:flash/Drawer/color_theme_selector.dart';
-import 'package:flash/Drawer/icon_description.dart';
+import 'package:flash/drawer/appearance_selector.dart';
+import 'package:flash/drawer/color_theme_selector.dart';
+import 'package:flash/drawer/icon_description.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
