@@ -1,16 +1,14 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flash/Common/app_builder.dart';
-import 'package:flash/Common/appearance.dart';
-import 'package:flash/Common/configuration.dart';
-import 'package:flash/Common/material_colors.dart';
-import 'package:flash/Drawer/settings_drawer.dart';
-import 'package:flash/Main/main_area.dart';
-import 'package:flash/Main/main_text.dart';
+import 'package:flash/common/app_builder.dart';
+import 'package:flash/common/appearance.dart';
+import 'package:flash/common/configuration.dart';
+import 'package:flash/common/material_colors.dart';
+import 'package:flash/drawer/settings_drawer.dart';
+import 'package:flash/main/main_area.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,9 +61,9 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final FocusNode _focusNode = FocusNode();
   final int _flashTime = 5;
   final Configuration _configuration = Configuration.getInstance();
-  final MainText _mainText = MainText();
   Color _iconColor = Colors.transparent;
   bool _isActive = true;
+  bool _isFromSharingIntent = false;
   bool _isFocusedOnMainArea = false;
 
   @override
@@ -102,10 +100,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              child: ChangeNotifierProvider.value(
-                value: _mainText,
-                child: mainArea,
-              ),
+              child: mainArea,
             ),
             Visibility(
               visible: false,
@@ -151,8 +146,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       case AppLifecycleState.inactive:
         if (_isActive) {
           _isActive = false;
+          _isFromSharingIntent = false;
           _saveText();
-          _mainText.reset();
           ReceiveSharingIntent.reset();
         }
         break;
@@ -191,10 +186,12 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   void _setUpText() async {
     ReceiveSharingIntent.getInitialText().then((value) {
-      _mainText.updateTo(value);
+      _isFromSharingIntent = true;
+      _updateController(value);
     });
     ReceiveSharingIntent.getTextStream().first.then((value) {
-      _mainText.updateTo(value);
+      _isFromSharingIntent = true;
+      _updateController(value);
     });
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -207,9 +204,15 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         lastText = prefs.getString('lastText');
       }
     }
-    if (_mainText.getValue() == null || _mainText.getValue().isEmpty) {
-      _mainText.updateTo(lastText);
+    if (!_isFromSharingIntent) {
+      _updateController(lastText);
     }
+  }
+
+  void _updateController(String text) {
+    _controller.text = text;
+    _controller.selection =
+        TextSelection.collapsed(offset: _controller.text.length);
   }
 
   void _setUpBrightness() async {
