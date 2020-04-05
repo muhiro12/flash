@@ -1,4 +1,6 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flash/admob_private.dart';
 import 'package:flash/common/app_builder.dart';
 import 'package:flash/common/appearance.dart';
 import 'package:flash/common/configuration.dart';
@@ -103,14 +105,12 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               child: mainArea,
             ),
             Visibility(
-              visible: false,
+              visible: true,
               child: Container(
                 height: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 2,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                child: AdmobBanner(
+                  adUnitId: AdMobPrivate.getAppId(),
+                  adSize: AdmobBannerSize.BANNER,
                 ),
               ),
             ),

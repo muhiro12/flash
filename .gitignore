@@ -1,5 +1,6 @@
 # Project
 key.properties
+admob_private.dart
 
 # Firebase
 GoogleService-Info.plist
