@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               child: mainArea,
             ),
             Visibility(
-              visible: true,
+              visible: !_isFocusedOnMainArea,
               child: Container(
                 height: 50,
                 child: AdmobBanner(
