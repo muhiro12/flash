@@ -14,7 +14,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  Admob.initialize(AdMobPrivate.getAppId());
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   final Configuration _configuration = Configuration.getInstance();
@@ -109,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               child: Container(
                 height: 50,
                 child: AdmobBanner(
-                  adUnitId: AdMobPrivate.getAppId(),
+                  adUnitId: AdMobPrivate.getBannerAdUnitId(),
                   adSize: AdmobBannerSize.BANNER,
                 ),
               ),
