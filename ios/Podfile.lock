@@ -15,6 +15,10 @@ PODS:
     - FirebaseAnalytics (= 6.1.7)
   - Firebase/CoreOnly (6.14.0):
     - FirebaseCore (= 6.5.0)
+  - firebase_admob (0.0.1):
+    - Firebase/AdMob
+    - Firebase/Core
+    - Flutter
   - firebase_analytics (0.0.1):
     - Firebase/Analytics (~> 6.0)
     - Firebase/Core
@@ -100,6 +104,7 @@ PODS:
 
 DEPENDENCIES:
   - admob_flutter (from `.symlinks/plugins/admob_flutter/ios`)
+  - firebase_admob (from `.symlinks/plugins/firebase_admob/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
@@ -129,6 +134,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   admob_flutter:
     :path: ".symlinks/plugins/admob_flutter/ios"
+  firebase_admob:
+    :path: ".symlinks/plugins/firebase_admob/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
@@ -153,6 +160,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   admob_flutter: 8033bcca85371a0554aa99d525a83a4770e679f0
   Firebase: 0219bb4782eb1406f1b9b0628a2e625484ce910d
+  firebase_admob: d8c2bc95b5e0069406280ce6adb816cdee6aa595
   firebase_analytics: dacdcfc524d722fff13dcff942f0dfa47e6be567
   firebase_core: 0d8be0e0d14c4902953aeb5ac5d7316d1fe4b978
   firebase_core_web: d501d8b946b60c8af265428ce483b0fff5ad52d1
