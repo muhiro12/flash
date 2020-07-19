@@ -1,6 +1,6 @@
-import 'package:admob_flutter/admob_flutter.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flash/admob_private.dart';
+import 'package:flash/ad_manager.dart';
 import 'package:flash/common/app_builder.dart';
 import 'package:flash/common/appearance.dart';
 import 'package:flash/common/configuration.dart';
@@ -14,7 +14,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   final Configuration _configuration = Configuration.getInstance();
@@ -67,6 +69,31 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   bool _isActive = true;
   bool _isFromSharingIntent = false;
   bool _isFocusedOnMainArea = false;
+  BannerAd _bannerAd;
+
+  @override
+  void initState() {
+    super.initState();
+    _initAdMob();
+    _bannerAd = BannerAd(
+      adUnitId: AdManager.bannerAdUnitId,
+      size: AdSize.fullBanner,
+    );
+    _loadBannerAd();
+
+    _focusNode.addListener(_onFocusChanged);
+    WidgetsBinding.instance.addObserver(this);
+    _setUpConfiguration();
+    _setUpText();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    _focusNode.removeListener(_onFocusChanged);
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,42 +125,12 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       ),
       drawer: SettingsDrawer(widget.title),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: mainArea,
-            ),
-            Visibility(
-              visible: !_isFocusedOnMainArea,
-              child: Container(
-                height: 50,
-                child: AdmobBanner(
-                  adUnitId: AdMobPrivate.getAppId(),
-                  adSize: AdmobBannerSize.BANNER,
-                ),
-              ),
-            ),
-          ],
-        ),
+        child: mainArea,
+      ),
+      bottomNavigationBar: SizedBox(
+        height: kBottomNavigationBarHeight + 40,
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode.addListener(_onFocusChanged);
-    WidgetsBinding.instance.addObserver(this);
-    _setUpConfiguration();
-    _setUpText();
-  }
-
-  @override
-  void dispose() {
-    _focusNode.removeListener(_onFocusChanged);
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
   }
 
   @override
@@ -239,5 +236,19 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     setState(() {
       _isFocusedOnMainArea = _focusNode.hasFocus;
     });
+  }
+
+  Future _initAdMob() {
+    return FirebaseAdMob.instance.initialize(
+      appId: AdManager.appId,
+    );
+  }
+
+  void _loadBannerAd() {
+    _bannerAd
+      ..load()
+      ..show(
+        anchorType: AnchorType.bottom,
+      );
   }
 }

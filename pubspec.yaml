@@ -31,7 +31,7 @@ dependencies:
   share: ^0.6.3+6
   receive_sharing_intent: ^1.3.3
   provider: ^4.0.4
-  admob_flutter: ^0.3.4
+  firebase_admob: ^0.9.3+2
 
 dev_dependencies:
   flutter_test:
