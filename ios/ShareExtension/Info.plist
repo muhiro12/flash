@@ -20,6 +20,8 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-3272430040277479~7061133880</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
